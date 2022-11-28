@@ -15,11 +15,30 @@
 require "./classes/class.Database.php";
 require "./classes/utils.php";
 
-$sql = ;
-$companies = Database::get_array($sql);
+$data = json_decode(file_get_contents("php://input"));
+$sql = "";
 
-$companies = Utils::utf8Converter($companies);
+if (!isset($data)) {
+    echo "error";
+}
 
-$response = json_encode(array('data' => $companies));
+if ($data->field == "distrito") { 
+    $sql = "SELECT * FROM empresas_distritos;";
+}
+
+if ($data->field == "sector") { 
+    $sql = "SELECT * FROM empresas_sector;";
+}
+
+if ($data->field == "poligono") { 
+    $sql = "SELECT * FROM empresas_poligonos;";
+}
+
+
+$fields = Database::get_array($sql);
+
+$fields = Utils::utf8Converter($fields);
+
+$response = json_encode(array('data' => $fields));
 
 echo "$response";

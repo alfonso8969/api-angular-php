@@ -85,7 +85,7 @@ class Database
     // ==================================================
     // Funcion que ejecuta el SQL y retorna un Arreglo
     // ==================================================
-    public static function get_array ($sql)
+    public static function get_array($sql)
     {
         if (!self::es_string($sql)) {
             exit();
