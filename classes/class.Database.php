@@ -27,7 +27,7 @@ if ($method == "OPTIONS") {
  */
 class Database
 {
-    // private $_connection;
+    private $_connection;
     // private $_host = "localhost";
     // private $_user = "root";
     // private $_pass = "root";
