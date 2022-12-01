@@ -5,7 +5,7 @@
 // Descripcion: Tiene varias funciones muy útiles para
 // 				el manejo de registros.
 //
-// Ultima Modificación: 17 de marzo de 2015
+// Ultima Modificación: 28 de noviembre de 2022
 // ======================================================
 
 header('Access-Control-Allow-Origin: *');
@@ -28,14 +28,14 @@ if ($method == "OPTIONS") {
 class Database
 {
     private $_connection;
-    // private $_host = "localhost";
-    // private $_user = "root";
-    // private $_pass = "root";
-    // private $_db   = "empresas";
-    private $_host = "PMYSQL123.dns-servicio.com";
-    private $_user = "alf-user-7336147";
-    private $_pass = "qehKs9fwCFxtWDF";
-    private $_db   = "7336147_Empresas_MSDES";
+    private $_host = "localhost";
+    private $_user = "root";
+    private $_pass = "root";
+    private $_db   = "empresas";
+    // private $_host = "PMYSQL123.dns-servicio.com";
+    // private $_user = "alf-user-7336147";
+    // private $_pass = "qehKs9fwCFxtWDF";
+    // private $_db   = "7336147_Empresas_MSDES";
 
     // Store only one instance
     private static $_instance;

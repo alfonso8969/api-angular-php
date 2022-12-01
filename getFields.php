@@ -9,11 +9,11 @@
  * @author   Author <alfonsoj.gonzalez@alfonsogonz.es>
  * @license  https://opensource.org/licenses/MIT MIT License
  * @version  GIT: @1.0.0
- * @link     https://bitbucket/private/repository
+ * @link     https://github.com/alfonso8969/api-angular-php.git
  */
 
-require "./classes/class.Database.php";
-require "./classes/utils.php";
+include_once "./classes/class.Database.php";
+include_once "./classes/utils.php";
 
 $data = json_decode(file_get_contents("php://input"));
 $sql = "";
