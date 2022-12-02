@@ -30,7 +30,7 @@ class Utils
 	public static function getLastIdOfEmpDet() 
 	{
 		$db = Database::getInstance();
-		$sql = "SELECT (MAX(Empresa_det_id) + 1) As NEXT FROM empresas.empresas_principal";
+		$sql = "SELECT (MAX(Empresa_det_id) + 1) As NEXT FROM empresas_principal";
 		$lastIdOfEmpDet =  $db->get_value_query($sql, 'NEXT');
 		return "$lastIdOfEmpDet";
 	}
