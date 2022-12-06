@@ -23,3 +23,4 @@ $companies = Utils::utf8Converter($companies);
 $response = json_encode(array('data' => $companies));
 
 echo "$response";
+
