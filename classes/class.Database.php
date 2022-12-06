@@ -117,7 +117,7 @@ class Database
     // Esta funcion esta pensada para SQLs,
     // que retornen unicamente UNA sola línea
     // ==================================================
-    public function get_Row($sql)
+    public static function get_Row($sql)
     {
         if (!self::es_string($sql)) {
             exit();

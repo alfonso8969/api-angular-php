@@ -23,12 +23,18 @@ if (!isset($data)) {
 }
 $empresa = $data->empresa;
 
+$Nombre = $empresa->Nombre;
+$Sector = $empresa->Sector;
+$Distrito = $empresa->Distrito;
+$Poligono = $empresa->Poligono;
+$link = 'sin datos';
+$Empresa_det_id = $empresa->Empresa_det_id;
+$Habilitada = 1;
+$fecha_alta = $empresa->fecha_alta;
+$user_id_alta = $empresa->user_id_alta;
+
+
 $Web = $empresa->Web;
-$Facebook = $empresa->Facebook;
-$Twitter= $empresa->Twitter;
-$Instagram = $empresa->Instagram;
-$Google_plus = $empresa->Google_plus;
-$Linkedin = $empresa->Linkedin;
 $Telefono = $empresa->Telefono;
 $OtherTelefono = $empresa->OtherTelefono;
 $Email = $empresa->Email;
@@ -37,10 +43,74 @@ $Direccion = $empresa->Direccion;
 $Localidad = $empresa->Localidad;
 $Provincia = $empresa->Provincia;
 $Cod_postal = $empresa->Cod_postal;
-$Nombre = $empresa->Nombre;
-$Sector = $empresa->Sector;
-$Distrito = $empresa->Distrito;
-$Poligono = $empresa->Poligono;
-$Empresa_det_id = $empresa->Empresa_det_id;
-$Habilita = $empresa->Habilita;
-$fecha_alta = $empresa->fecha_alta;
+
+$Facebook = $empresa->Facebook;
+$Twitter= $empresa->Twitter;
+$Instagram = $empresa->Instagram;
+$Google_plus = $empresa->Google_plus;
+$Linkedin = $empresa->Linkedin;
+
+$db = new Database();
+$conn = $db->getConnection();
+$stmt = $conn->prepare("INSERT INTO empresas_principal (
+                        Nombre,
+                        Sector,
+                        Distrito,
+                        Poligono,
+                        Link,
+                        Empresa_det_id,
+                        Habilitada,
+                        fecha_alta,
+                        user_id_alta) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("siiisiisi", 
+                    $Nombre, $Sector, $Distrito, 
+                    $Poligono, $Link, $Empresa_det_id,
+                    $Habilitada, $fecha_alta, $user_id_alta
+                );
+$princ = $stmt->execute();
+
+if ($princ) { 
+    $stmt = $conn->prepare("INSERT INTO empresas_descripcion (
+        emp_det_id,
+        Web,
+        Telefono,
+        otherTelefono,
+        Email,
+        Direccion,
+        Localidad,
+        Provincia,
+        Cod_postal,
+        Persona_conrtacto)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssssssss", 
+                        $Empresa_det_id, $Web, $Telefono, $otherTelef,
+                        $Email, $Direccion, $Localidad, $Provincia,
+                        $Cod_post, $Persona_contacto
+                        );
+    $descrip = $stmt->execute();
+}
+
+if ($princ && $descrip) {  
+    $stmt = $conn->prepare("INSERT INTO empresas_redes
+    (emp_red_id,
+    Facebook,
+    Twitter,
+    Instagram,
+    Google_plus,
+    Linkedin)
+    VALUES
+    (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssss", 
+                        $Empresa_det_id, $Facebook, $Twitter, 
+                        $Instagram, $Google_plus, $Linkedin
+                    );
+    $redes = $stmt->execute();
+}
+
+
+if ($redes && $princ && $descrip) {
+    echo 1;
+} else {
+    echo 0;
+}
