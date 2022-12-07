@@ -27,10 +27,11 @@ $Nombre = $empresa->Nombre;
 $Sector = $empresa->Sector;
 $Distrito = $empresa->Distrito;
 $Poligono = $empresa->Poligono;
-$link = 'sin datos';
+$Link = 'sin datos';
 $Empresa_det_id = $empresa->Empresa_det_id;
 $Habilitada = 1;
-$fecha_alta = $empresa->fecha_alta;
+$phpdate = strtotime($empresa->fecha_alta);
+$mysqldate = date('Y-m-d H:i:s', $phpdate);
 $user_id_alta = $empresa->user_id_alta;
 
 
@@ -66,7 +67,7 @@ $stmt = $conn->prepare("INSERT INTO empresas_principal (
 $stmt->bind_param("siiisiisi", 
                     $Nombre, $Sector, $Distrito, 
                     $Poligono, $Link, $Empresa_det_id,
-                    $Habilitada, $fecha_alta, $user_id_alta
+                    $Habilitada, $mysqldate, $user_id_alta
                 );
 $princ = $stmt->execute();
 
@@ -81,12 +82,12 @@ if ($princ) {
         Localidad,
         Provincia,
         Cod_postal,
-        Persona_conrtacto)
+        Persona_contacto)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("isssssssss", 
-                        $Empresa_det_id, $Web, $Telefono, $otherTelef,
+                        $Empresa_det_id, $Web, $Telefono, $OtherTelefono,
                         $Email, $Direccion, $Localidad, $Provincia,
-                        $Cod_post, $Persona_contacto
+                        $Cod_postal, $Persona_contacto
                         );
     $descrip = $stmt->execute();
 }

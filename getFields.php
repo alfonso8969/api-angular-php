@@ -27,7 +27,7 @@ if ($data->field == "distrito") {
 }
 
 if ($data->field == "sector") { 
-    $sql = "SELECT * FROM empresas_sector;";
+    $sql = "SELECT * FROM empresas_sector ORDER BY empresas_sector_name;";
 }
 
 if ($data->field == "poligono") { 
