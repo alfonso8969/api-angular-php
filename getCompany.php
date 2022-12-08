@@ -24,7 +24,7 @@ if (!isset($data)) {
 
 $id = $data->id;
 
-$sql = "SELECT Empresa_det_id, Nombre, Sector, Telefono, otherTelefono , Email, Persona_contacto, Direccion, 
+$sql = "SELECT Empresa_det_id, Nombre, Sector, Telefono, OtherTelefono, Email, Persona_contacto, Direccion, 
 Distrito, Poligono, Localidad, Provincia, Cod_postal, Web, 
 Facebook, Twitter, Instagram, Linkedin, Google_plus, Habilitada FROM empresas_principal ep 
 INNER JOIN empresas_descripcion ed ON ep.Empresa_det_id = ed.emp_det_id
