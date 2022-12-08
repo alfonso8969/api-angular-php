@@ -115,3 +115,7 @@ if ($redes && $princ && $descrip) {
 } else {
     echo 0;
 }
+
+
+$stmt->close();
+$conn->close();

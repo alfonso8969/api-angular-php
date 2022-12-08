@@ -54,10 +54,7 @@ $stmt = $conn->prepare("UPDATE empresas_principal SET
                         Poligono = ?
                         WHERE Empresa_det_id = ?");
                         
-$stmt->bind_param("siiii", 
-                    $Nombre, $Sector, $Distrito, 
-                    $Poligono, $Empresa_det_id,
-                );
+$stmt->bind_param("siiii", $Nombre, $Sector, $Distrito, $Poligono, $Empresa_det_id);
 $princ = $stmt->execute();
 
 if ($princ) { 
@@ -72,11 +69,7 @@ if ($princ) {
         Cod_postal = ?,
         Persona_contacto = ?
         WHERE emp_det_id = ?");
-    $stmt->bind_param("sssssssssi", 
-                        $Web, $Telefono, $OtherTelefono,
-                        $Email, $Direccion, $Localidad, $Provincia,
-                        $Cod_postal, $Persona_contacto, $Empresa_det_id
-                        );
+    $stmt->bind_param("sssssssssi", $Web, $Telefono, $OtherTelefono, $Email, $Direccion, $Localidad, $Provincia, $Cod_postal, $Persona_contacto, $Empresa_det_id);
     $descrip = $stmt->execute();
 }
 
@@ -88,10 +81,7 @@ if ($princ && $descrip) {
     Google_plus = ?,
     Linkedin = ? 
     WHERE emp_red_id = ?");
-    $stmt->bind_param("sssssi", 
-                        $Facebook, $Twitter, 
-                        $Instagram, $Google_plus, $Linkedin, $Empresa_det_id
-                    );
+    $stmt->bind_param("sssssi", $Facebook, $Twitter, $Instagram, $Google_plus, $Linkedin, $Empresa_det_id);
     $redes = $stmt->execute();
 }
 
