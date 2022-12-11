@@ -34,4 +34,14 @@ class Utils
 		$lastIdOfEmpDet =  $db->get_value_query($sql, 'NEXT');
 		return "$lastIdOfEmpDet";
 	}
+
+	public static function getLastDistrict() 
+	{
+		$db = Database::getInstance();
+		$sql = "SELECT  MAX(REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(distrito_name, ' ', 4), ' ', -1), ')', ''))  AS distrito_number FROM empresas_distritos where distrito_name <> 'sin datos';";
+		$lastIdOfEmpDet =  $db->get_value_query($sql, 'distrito_number');
+		return "$lastIdOfEmpDet";
+	}
+
+
 }
