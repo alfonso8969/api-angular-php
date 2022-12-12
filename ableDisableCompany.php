@@ -26,19 +26,22 @@ if (!isset($data->user)) {
     echo "error";
 }
 
-$user = $data->user;
+$empresa = $data->empresa;
 
-$field_id = $user->id_user;
-$field_hab_update = $user->habilitado;
+$field_id = $empresa->Empresa_det_id;
+$field_user_id = '';
+$field_hab_update = $empresa->Habilitada;
 
 $fecha = new DateTime();
 $fechastr = $fecha->format('Y-m-d H:i:s');
 if ($field_hab_update == 1) {
-    $sql = "UPDATE empresas_user SET habilitado = ?, fecha_alta = '%s', fecha_baja = NULL WHERE id_user = ?";
-    $sql = sprintf($sql, $fechastr);
+    $field_user_id = $empresa->user_id_alta;
+    $sql = "UPDATE empresas_user SET Habilitada = ?, fecha_alta = '%s', user_id_alta = %d, user_id_baja = NULL, fecha_baja = NULL WHERE Empresa_det_id = ?";
+    $sql = sprintf($sql, $fechastr, $field_user_id);
 } else {
-    $sql = "UPDATE empresas_user SET habilitado = ?, fecha_baja = '%s', fecha_alta = NULL WHERE id_user = ?";
-    $sql = sprintf($sql, $fechastr);  
+    $field_user_id = $empresa->user_id_baja;
+    $sql = "UPDATE empresas_user SET Habilitada = ?, fecha_baja = '%s', user_id_baja = %d, user_id_alta = NULL, fecha_alta = NULL WHERE Empresa_det_id = ?";
+    $sql = sprintf($sql, $fechastr, $field_user_id);  
 }
 
 $db = new Database();
