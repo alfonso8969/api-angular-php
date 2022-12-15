@@ -55,6 +55,7 @@ $stmt->bind_param(
     $user_phone,
     $id
 );
+
 $user_update = $stmt->execute();
 
 if ($user_update) {

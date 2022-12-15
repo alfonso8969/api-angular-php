@@ -34,15 +34,16 @@ $field_hab_update = $empresa->Habilitada;
 
 $fecha = new DateTime();
 $fechastr = $fecha->format('Y-m-d H:i:s');
+
 if ($field_hab_update == 1) {
     $field_user_id = $empresa->user_id_alta;
     $sql = "UPDATE empresas_user SET Habilitada = ?, fecha_alta = '%s', user_id_alta = %d, user_id_baja = NULL, fecha_baja = NULL WHERE Empresa_det_id = ?";
-    $sql = sprintf($sql, $fechastr, $field_user_id);
 } else {
     $field_user_id = $empresa->user_id_baja;
     $sql = "UPDATE empresas_user SET Habilitada = ?, fecha_baja = '%s', user_id_baja = %d, user_id_alta = NULL, fecha_alta = NULL WHERE Empresa_det_id = ?";
-    $sql = sprintf($sql, $fechastr, $field_user_id);  
 }
+
+$sql = sprintf($sql, $fechastr, $field_user_id);  
 
 $db = new Database();
 $conn = $db->getConnection();
