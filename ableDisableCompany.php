@@ -22,7 +22,7 @@ if (!isset($data)) {
     echo "error";
 }
 
-if (!isset($data->user)) {
+if (!isset($data->empresa)) {
     echo "error";
 }
 
@@ -37,18 +37,18 @@ $fechastr = $fecha->format('Y-m-d H:i:s');
 
 if ($field_hab_update == 1) {
     $field_user_id = $empresa->user_id_alta;
-    $sql = "UPDATE empresas_user SET Habilitada = ?, fecha_alta = '%s', user_id_alta = %d, user_id_baja = NULL, fecha_baja = NULL WHERE Empresa_det_id = ?";
+    $sql = "UPDATE empresas_principal SET Habilitada = ?, fecha_alta = '%s', user_id_alta = ? WHERE Empresa_det_id = ?";
 } else {
     $field_user_id = $empresa->user_id_baja;
-    $sql = "UPDATE empresas_user SET Habilitada = ?, fecha_baja = '%s', user_id_baja = %d, user_id_alta = NULL, fecha_alta = NULL WHERE Empresa_det_id = ?";
+    $sql = "UPDATE empresas_principal SET Habilitada = ?, fecha_baja = '%s', user_id_baja = ? WHERE Empresa_det_id = ?";
 }
 
-$sql = sprintf($sql, $fechastr, $field_user_id);  
+$sql = sprintf($sql, $fechastr);  
 
 $db = new Database();
 $conn = $db->getConnection();
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ii", $field_hab_update, $field_id);
+$stmt->bind_param("iii", $field_hab_update, $field_user_id, $field_id);
 
 try {
     $field_update = $stmt->execute();
