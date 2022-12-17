@@ -39,9 +39,28 @@ class Utils
 	{
 		$db = Database::getInstance();
 		$sql = "SELECT  MAX(REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(distrito_name, ' ', 4), ' ', -1), ')', ''))  AS distrito_number FROM empresas_distritos where distrito_name <> 'sin datos';";
-		$lastIdOfEmpDet =  $db->get_value_query($sql, 'distrito_number');
-		return "$lastIdOfEmpDet";
+		$lastIdOfDistritos =  $db->get_value_query($sql, 'distrito_number');
+		return "$lastIdOfDistritos";
 	}
+
+	// ====================================================================
+    // Funciones para encryptar y desencryptar data:
+    // crypt_blowfish_bydinvaders
+    // ====================================================================
+    public static function crypt($toEncrypt, $digit = 7)
+    {
+        $set_salt = './1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        $salt = sprintf('$2a$%02d$', $digit);
+        for ($i = 0; $i < 22; $i++) {
+            $salt .= $set_salt[mt_rand(0, 22)];
+        }
+        return crypt($toEncrypt, $salt);
+    }
+
+    public static function uncrypt($toEval, $against)
+    {
+        return (crypt($toEval, $against) == $against);        
+    }
 
 
 }

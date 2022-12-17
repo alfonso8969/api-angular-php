@@ -33,6 +33,7 @@ if (!isset($user->user_img)) {
     $user_img = $user->user_img;
 }
 $user_password = $user->user_password;
+$user_password = Utils::crypt($user_password);
 $user_phone = $user->user_phone;
 $user_email = $user->user_email;
 $user_rol = $user->user_rol;
@@ -67,10 +68,15 @@ $stmt->bind_param(
 );
 $user_insert = $stmt->execute();
 
-if ($user_insert) {
-    echo 1;
-} else {
-    echo 0;
+try {
+    $user_insert = $stmt->execute();
+    if ($field_insert) {
+        echo 1;
+    } else {
+        echo 0;
+    }
+} catch (Exception $e) {
+    echo $e->getMessage();
 }
 
 $stmt->close();

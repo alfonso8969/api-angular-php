@@ -21,11 +21,12 @@ $sql = "";
 if (!isset($data)) {
     echo "error";
 }
-
+$user_password = '';
 $user = $data->user;
 $id = $user->id_user;
 $user_name = $user->user_name;
 $user_lastName = $user->user_lastName;
+
 
 if (isset($user->newuser_img)) {
     unlink('./uploads/' . $user->user_img);
@@ -39,22 +40,47 @@ $user_email = $user->user_email;
 
 $db = new Database();
 $conn = $db->getConnection();
-$stmt = $conn->prepare("UPDATE empresas_user 
-SET user_img = ?,
-user_name = ?,
-user_lastName = ?,
-user_email = ?,
-user_phone = ? 
-WHERE id_user = ?");
-$stmt->bind_param(
-    "sssssi",
-    $user_img,
-    $user_name,
-    $user_lastName,
-    $user_email,
-    $user_phone,
-    $id
-);
+
+
+
+if (isset($user->user_password)) {
+    $user_password = Utils::crypt($user->user_password);
+    $stmt = $conn->prepare("UPDATE empresas_user 
+    SET user_img = ?,
+    user_password = ?,
+    user_name = ?,
+    user_lastName = ?,
+    user_email = ?,
+    user_phone = ? 
+    WHERE id_user = ?");
+    $stmt->bind_param(
+        "ssssssi",
+        $user_img,
+        $user_password,
+        $user_name,
+        $user_lastName,
+        $user_email,
+        $user_phone,
+        $id
+    );
+} else {
+    $stmt = $conn->prepare("UPDATE empresas_user 
+    SET user_img = ?,
+    user_name = ?,
+    user_lastName = ?,
+    user_email = ?,
+    user_phone = ? 
+    WHERE id_user = ?");
+    $stmt->bind_param(
+        "sssssi",
+        $user_img,
+        $user_name,
+        $user_lastName,
+        $user_email,
+        $user_phone,
+        $id
+    );
+}
 
 $user_update = $stmt->execute();
 

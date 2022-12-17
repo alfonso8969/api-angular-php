@@ -27,7 +27,7 @@ if ($method == "OPTIONS") {
  */
 class Database
 {
-    private $_connection;
+    // private $_connection;
     // private $_host = "localhost";
     // private $_user = "root";
     // private $_pass = "root";
@@ -184,7 +184,7 @@ class Database
     // de una sola linea. Ideal para imprimir un
     // Query que solo retorne una linea
     // ==================================================
-    public function get_json_row($sql)
+    public static function get_json_row($sql)
     {
 
         if (!self::es_string($sql)) {
@@ -259,23 +259,6 @@ class Database
         }
     }
 
-    // ====================================================================
-    // Funciones para encryptar y desencryptar data:
-    // crypt_blowfish_bydinvaders
-    // ====================================================================
-    public function crypt($toEncrypt, $digit = 7)
-    {
-        $set_salt = './1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-        $salt = sprintf('$2a$%02d$', $digit);
-        for ($i = 0; $i < 22; $i++) {
-            $salt .= $set_salt[mt_rand(0, 22)];
-        }
-        return crypt($toEncrypt, $salt);
-    }
-
-    public function uncrypt($toEval, $against)
-    {
-        return (crypt($toEval, $against) == $against);        
-    }
+ 
 }
 
