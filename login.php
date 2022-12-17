@@ -51,8 +51,13 @@ if ($user_passwordComp) {
     fecha_baja
      FROM empresas_user where user_email = '%s' AND user_password = '%s';";
     $sql = sprintf($sql, $user_email, $user_passwordDB); 
-    $user = Database::get_json_row($sql);
-    echo $user;
+    $newuser = Database::get_json_row($sql);
+    if ($newuser == null) {
+        echo $user;
+    } else {
+        echo $newuser;
+    }
+    
 } else {
     echo json_encode($user);
 }
