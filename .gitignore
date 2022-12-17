@@ -6,4 +6,3 @@ Thumbs.db
 **/secret/
 /classes/*.*
 /uploads/*.*
-crypto.php
