@@ -54,7 +54,7 @@ if ($user_passwordComp) {
     $user = Database::get_json_row($sql);
     echo $user;
 } else {
-    echo "error";
+    echo json_encode($user);
 }
 
 
