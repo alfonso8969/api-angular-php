@@ -53,7 +53,7 @@ if ($user_passwordComp) {
     $sql = sprintf($sql, $user_email, $user_passwordDB); 
     $newuser = Database::get_json_row($sql);
     if ($newuser == null) {
-        echo $user;
+        echo json_encode($user);
     } else {
         echo $newuser;
     }
