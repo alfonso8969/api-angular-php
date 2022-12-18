@@ -155,7 +155,7 @@ class Database
     // Funcion que ejecuta el SQL y retorna un jSon
     // data: [{...}] con N cantidad de registros
     // ==================================================
-    public function get_json_rows($sql)
+    public static function get_json_rows($sql)
     {
         if (!self::es_string($sql)) {
             exit();
@@ -204,7 +204,9 @@ class Database
         if (!$row = $result->fetch_assoc()) {
             return "{}";
         }
-        return json_encode($row);
+        $result = Utils::utf8Converter($row);
+
+        return json_encode($result);
     }
 
     // ====================================================================
