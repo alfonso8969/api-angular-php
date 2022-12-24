@@ -29,6 +29,7 @@ $campo = $ticket->campo;
 $message = $ticket->message;
 $phpdate = strtotime($ticket->fecha);
 $mysqldate = date('Y-m-d H:i:s', $phpdate);
+$code = $ticket->code;
 $respondido = $ticket->respondido;
 
 $db = new Database();
@@ -38,9 +39,10 @@ $stmt = $conn->prepare("INSERT INTO empresas_ticket (
                         campo,
                         message,
                         fecha,
+                        ticket_code,
                         respondido) 
-                        VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("isssi", $user_id, $campo, $message, $mysqldate, $respondido);
+                        VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("issssi", $user_id, $campo, $message, $mysqldate, $code, $respondido);
                     
 $ticket = $stmt->execute();
 if ($ticket) {
