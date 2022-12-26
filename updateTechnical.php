@@ -22,9 +22,11 @@ if (!isset($data)) {
     echo "error";
 }
 
+$user = $data->formData->user;
+$address = $data->formData->address;
+
 $user_password = '';
-$user = $data->user;
-$id = $user->id_user;
+$id_user = $user->id_user;
 $user_name = $user->user_name;
 $user_lastName = $user->user_lastName;
 
@@ -41,8 +43,6 @@ $user_email = $user->user_email;
 
 $db = new Database();
 $conn = $db->getConnection();
-
-
 
 if (isset($user->user_password)) {
     $user_password = Utils::crypt($user->user_password);
@@ -62,7 +62,7 @@ if (isset($user->user_password)) {
         $user_lastName,
         $user_email,
         $user_phone,
-        $id
+        $id_user
     );
 } else {
     $stmt = $conn->prepare("UPDATE empresas_user 
@@ -79,13 +79,40 @@ if (isset($user->user_password)) {
         $user_lastName,
         $user_email,
         $user_phone,
-        $id
+        $id_user
     );
 }
 
-$user_update = $stmt->execute();
+try {
+    $user_update = $stmt->execute();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 
-if ($user_update) {
+
+
+$stmt = $conn->prepare("UPDATE empresas_users_address 
+    SET address_user = ?,
+    region = ?,
+    city = ?,
+    cod_postal = ?        
+    WHERE id_user = ?");
+$stmt->bind_param(
+    "ssssi",
+    $address->address_user,
+    $address->region,
+    $address->city,
+    $address->cod_postal,
+    $id_user
+);
+
+try {
+    $address_update = $stmt->execute(); 
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+if ($user_update && $address_update) {
     echo 1;
 } else {
     echo 0;

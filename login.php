@@ -45,17 +45,23 @@ if ($user_passwordComp) {
     user_lastName,
     user_email,
     user_phone,
+    user_other_phone,
     user_rol,
     habilitado,
     fecha_alta,
     fecha_baja
      FROM empresas_user where user_email = '%s' AND user_password = '%s';";
     $sql = sprintf($sql, $user_email, $user_passwordDB); 
-    $newuser = Database::get_json_row($sql);
-    if ($newuser == null) {
+    try {
+        $newUser = Database::get_json_row($sql);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+    
+    if ($newUser == null) {
         echo json_encode($user);
     } else {
-        echo $newuser;
+        echo $newUser;
     }
     
 } else {

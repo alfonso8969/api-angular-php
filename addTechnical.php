@@ -22,7 +22,9 @@ if (!isset($data)) {
     echo "error";
 }
 
-$user = $data->user;
+$user = $data->formData->user;
+$address = $data->formData->address;
+
 
 $user_name = $user->user_name;
 $user_lastName = $user->user_lastName;
@@ -44,6 +46,7 @@ $fecha_alta = $mysqlDate;
 
 $db = new Database();
 $conn = $db->getConnection();
+
 $stmt = $conn->prepare("INSERT INTO empresas_user (
 user_img,
 user_password,
@@ -66,17 +69,40 @@ $stmt->bind_param(
     $habilitado,
     $fecha_alta
 );
-$user_insert = $stmt->execute();
 
 try {
     $user_insert = $stmt->execute();
-    if ($user_insert) {
-        echo 1;
-    } else {
-        echo 0;
-    }
+    $sql = "SELECT id_user FROM empresas_user WHERE user_email = '$user_email'";
+    $user_id = $db->get_value_query($sql, 'id_user');    
 } catch (Exception $e) {
     echo $e->getMessage();
+}
+
+$stmt = $conn->prepare("INSERT INTO empresas_users_address (
+    id_user,
+    address_user,
+    region,
+    city,
+    cod_postal) VALUES (?, ?, ?, ?, ?)");
+$stmt->bind_param(
+    "issss",
+    $user_id,
+    $address->address_user,
+    $address->region,
+    $address->city,
+    $address->cod_postal
+);
+
+try {
+    $address_insert = $stmt->execute(); 
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+if ($user_insert && $address_insert) {
+    echo 1;
+} else {
+    echo 0;
 }
 
 $stmt->close();
