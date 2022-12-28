@@ -30,6 +30,9 @@ $Poligono = $empresa->Poligono;
 $Empresa_det_id = $empresa->Empresa_det_id;
 
 $Web = $empresa->Web;
+$CIF = $empresa->CIF;
+$installation_year = $empresa->installation_year;
+$workers_number = $empresa->workers_number;
 $Telefono = $empresa->Telefono;
 $OtherTelefono = $empresa->OtherTelefono;
 $Email = $empresa->Email;
@@ -55,11 +58,14 @@ $stmt = $conn->prepare("UPDATE empresas_principal SET
                         WHERE Empresa_det_id = ?");
                         
 $stmt->bind_param("siiii", $Nombre, $Sector, $Distrito, $Poligono, $Empresa_det_id);
-$princ = $stmt->execute();
+$principal = $stmt->execute();
 
-if ($princ) { 
+if ($principal) { 
     $stmt = $conn->prepare("UPDATE empresas_descripcion        
         SET Web = ?,
+        CIF = ?,
+        installation_year = ?,
+        workers_number = ?,
         Telefono = ?,
         otherTelefono = ?,
         Email = ?,
@@ -69,11 +75,11 @@ if ($princ) {
         Cod_postal = ?,
         Persona_contacto = ?
         WHERE emp_det_id = ?");
-    $stmt->bind_param("sssssssssi", $Web, $Telefono, $OtherTelefono, $Email, $Direccion, $Localidad, $Provincia, $Cod_postal, $Persona_contacto, $Empresa_det_id);
-    $descrip = $stmt->execute();
+    $stmt->bind_param("ssiissssssisi", $Web, $CIF, $installation_year, $workers_number, $Telefono, $OtherTelefono, $Email, $Direccion, $Localidad, $Provincia, $Cod_postal, $Persona_contacto, $Empresa_det_id);
+    $description = $stmt->execute();
 }
 
-if ($princ && $descrip) {  
+if ($principal && $description) {  
     $stmt = $conn->prepare("UPDATE empresas_redes  
     SET Facebook = ?,
     Twitter = ?,
@@ -85,7 +91,7 @@ if ($princ && $descrip) {
     $redes = $stmt->execute();
 }
 
-if ($redes && $princ && $descrip) {
+if ($redes && $principal && $description) {
     echo 1;
 } else {
     echo 0;

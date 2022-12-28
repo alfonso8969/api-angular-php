@@ -24,12 +24,13 @@ if (!isset($data)) {
 
 $id = $data->id;
 
-$sql = "SELECT Empresa_det_id, Nombre, Sector, Telefono, OtherTelefono, Email, Persona_contacto, Direccion, 
-Distrito, Poligono, Localidad, Provincia, Cod_postal, Web, 
-Facebook, Twitter, Instagram, Linkedin, Google_plus, Habilitada FROM empresas_principal ep 
-INNER JOIN empresas_descripcion ed ON ep.Empresa_det_id = ed.emp_det_id
-INNER JOIN empresas_redes ers ON ep.Empresa_det_id = ers.emp_red_id
-WHERE Empresa_det_id = " . $id;
+$sql = "SELECT Empresa_det_id, CIF, Nombre, Sector, Telefono, OtherTelefono, Email, 
+        Persona_contacto, workers_number, installation_year, Direccion, 
+        Distrito, Poligono, Localidad, Provincia, Cod_postal, Web, 
+        Facebook, Twitter, Instagram, Linkedin, Google_plus, Habilitada FROM empresas_principal ep 
+        INNER JOIN empresas_descripcion ed ON ep.Empresa_det_id = ed.emp_det_id
+        INNER JOIN empresas_redes ers ON ep.Empresa_det_id = ers.emp_red_id
+        WHERE Empresa_det_id = " . $id;
 
 $empresa = Database::get_Row($sql);
 $fields = Utils::utf8Converter($empresa);
