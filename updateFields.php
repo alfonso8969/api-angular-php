@@ -30,6 +30,9 @@ if (!isset($data->field)) {
     echo "error";
 }
 
+$db = new Database();
+$conn = $db->getConnection();
+
 $field = $data->field;
 $field_id = "";
 $field_name = $field->field_name;
@@ -66,10 +69,17 @@ if ($field_name == "poligono") {
     $sql = "UPDATE empresas_poligonos SET empresas_poligono_name = ? WHERE poligono_id = ?";
 }
 
-$db = new Database();
-$conn = $db->getConnection();
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("si", $field_name_update, $field_id);
+if ($field_name == "tema") {
+    $field_id = $field->tema_id;
+    $field_name_update = $field->tema_name;
+    $field_rol = $field->tema_rol;    
+    $sql = "UPDATE empresas_temas SET name = ?, tema_rol = ? WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssi", $field_name_update, $field_rol, $field_id);
+} else {
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("si", $field_name_update, $field_id);
+}
 
 try {
     $field_update = $stmt->execute();

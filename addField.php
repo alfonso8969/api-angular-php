@@ -35,6 +35,9 @@ $field_name = $field->field_name;
 $field_name_insert = "";
 $sql = "";
 
+$db = new Database();
+$conn = $db->getConnection();
+
 
 if ($field_name == "distrito") { 
     $sql = "INSERT INTO empresas_distritos (distrito_name) VALUES(?)";
@@ -64,10 +67,17 @@ if ($field_name == "poligono") {
     $field_name_insert = $field->empresas_poligono_name;    
 }
 
-$db = new Database();
-$conn = $db->getConnection();
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $field_name_insert);
+if ($field_name == "tema") { 
+    $sql = "INSERT INTO empresas_temas (name, tema_rol) VALUES(?, ?)";
+    $field_name_insert = $field->tema_name;
+    $field_rol = $field->tema_rol;
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $field_name_insert, $field_rol);    
+} else {
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $field_name_insert);
+}
+
 
 try {
     $field_insert = $stmt->execute();
