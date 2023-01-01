@@ -66,7 +66,6 @@ $stmt->bind_param(
     $habilitado,
     $fecha_alta
 );
-$user_insert = $stmt->execute();
 
 try {
     $user_insert = $stmt->execute();

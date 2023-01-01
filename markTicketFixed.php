@@ -24,10 +24,10 @@ if (!isset($data)) {
 
 $code = $data->code;
 $date = new Datetime();
-$phpdate =  $date->format('Y-m-d H:i:s');
+$phpDate =  $date->format('Y-m-d H:i:s');
 
 $sql = "UPDATE empresas_ticket_tratados SET solucionado = 1, fecha_solucion = '%s' WHERE ticket_code = ?";
-$sql = sprintf($sql, $phpdate);  
+$sql = sprintf($sql, $phpDate);  
 
 $db = new Database();
 $conn = $db->getConnection();
