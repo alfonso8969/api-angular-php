@@ -27,7 +27,7 @@ if ($method == "OPTIONS") {
  */
 class Database
 {
-    private $_connection;
+    // private $_connection;
     // private $_host = "localhost";
     // private $_user = "root";
     // private $_pass = "root";
@@ -35,7 +35,8 @@ class Database
     private $_host = "PMYSQL123.dns-servicio.com";
     private $_user = "alf-user-7336147";
     private $_pass = "qehKs9fwCFxtWDF";
-    private $_db   = "7336147_Empresas_MSDES";
+    // private $_db   = "7336147_Empresas_MSDES";
+	private $_db   = "7336147_Ms_Mostoles_copy";
 
     // Store only one instance
     private static $_instance;
