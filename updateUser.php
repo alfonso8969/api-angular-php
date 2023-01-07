@@ -12,8 +12,8 @@
  * @link     https://github.com/alfonso8969/api-angular-php.git
  */
 
-include_once "./classes/class.Database.php";
-include_once "./classes/utils.php";
+require_once "./classes/class.Database.php";
+require_once "./classes/utils.php";
 
 $data = json_decode(file_get_contents("php://input"));
 $sql = "";
@@ -42,18 +42,18 @@ $user_email = $user->user_email;
 $db = new Database();
 $conn = $db->getConnection();
 
-
-
 if (isset($user->user_password)) {
-    $user_password = Utils::crypt($user->user_password);
-    $stmt = $conn->prepare("UPDATE empresas_user 
-    SET user_img = ?,
-    user_password = ?,
-    user_name = ?,
-    user_lastName = ?,
-    user_email = ?,
-    user_phone = ? 
-    WHERE id_user = ?");
+    $user_password = Utils::encrypt($user->user_password);
+    $stmt = $conn->prepare(
+        "UPDATE empresas_user
+        SET user_img = ?,
+        user_password = ?,
+        user_name = ?,
+        user_lastName = ?,
+        user_email = ?,
+        user_phone = ?
+        WHERE id_user = ?"
+    );
     $stmt->bind_param(
         "ssssssi",
         $user_img,
@@ -65,13 +65,15 @@ if (isset($user->user_password)) {
         $id
     );
 } else {
-    $stmt = $conn->prepare("UPDATE empresas_user 
-    SET user_img = ?,
-    user_name = ?,
-    user_lastName = ?,
-    user_email = ?,
-    user_phone = ? 
-    WHERE id_user = ?");
+    $stmt = $conn->prepare(
+        "UPDATE empresas_user
+        SET user_img = ?,
+        user_name = ?,
+        user_lastName = ?,
+        user_email = ?,
+        user_phone = ?
+        WHERE id_user = ?"
+    );
     $stmt->bind_param(
         "sssssi",
         $user_img,

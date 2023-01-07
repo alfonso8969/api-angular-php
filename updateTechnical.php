@@ -45,7 +45,7 @@ $db = new Database();
 $conn = $db->getConnection();
 
 if (isset($user->user_password)) {
-    $user_password = Utils::crypt($user->user_password);
+    $user_password = Utils::encrypt($user->user_password);
     $stmt = $conn->prepare("UPDATE empresas_user 
     SET user_img = ?,
     user_password = ?,

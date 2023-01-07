@@ -26,15 +26,17 @@ if (!isset($data->user)) {
     echo "error";
 }
 $user = $data->user;
+$user_password = Utils::encrypt($user->user_password);
+
 
 $db = Database::getInstance();
 $user_email = $user->user_email;
 $sql = "SELECT user_password FROM empresas_user where user_email = '%s';";
-$sql = sprintf($sql, $user_email); 
+$sql = sprintf($sql, $user_email);
 $user_passwordDB = $db->get_value_query($sql, 'user_password');
 
-
-$user_password = $user->user_password;
-$user_passwordComp = Utils::uncrypt($user_password, $user_passwordDB);
+$user_passwordDecrypt = Utils::decrypt($user_password);
+$user_passwordDBDecrypt = Utils::decrypt($user_passwordDB);
+$user_passwordComp = $user_passwordDecrypt == $user_passwordDBDecrypt;
 
 echo $user_passwordComp;

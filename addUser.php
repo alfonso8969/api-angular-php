@@ -3,7 +3,7 @@
 /**
  * Profile query.
  * php version 8.1.10
- *  
+ *
  * @category Config
  * @package  Server
  * @author   Author <alfonsoj.gonzalez@alfonsogonz.es>
@@ -12,8 +12,8 @@
  * @link     https://github.com/alfonso8969/api-angular-php.git
  */
 
-include_once "./classes/class.Database.php";
-include_once "./classes/utils.php";
+require_once "./classes/class.Database.php";
+require_once "./classes/utils.php";
 
 $data = json_decode(file_get_contents("php://input"));
 $sql = "";
@@ -33,7 +33,7 @@ if (!isset($user->user_img)) {
     $user_img = $user->user_img;
 }
 $user_password = $user->user_password;
-$user_password = Utils::crypt($user_password);
+$user_password = Utils::encrypt($user_password);
 $user_phone = $user->user_phone;
 $user_email = $user->user_email;
 $user_rol = $user->user_rol;
@@ -44,16 +44,19 @@ $fecha_alta = $mysqlDate;
 
 $db = new Database();
 $conn = $db->getConnection();
-$stmt = $conn->prepare("INSERT INTO empresas_user (
-user_img,
-user_password,
-user_name,
-user_lastName,
-user_email,
-user_phone,
-user_rol,
-habilitado,
-fecha_alta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt = $conn->prepare(
+    "INSERT INTO empresas_user (
+    user_img,
+    user_password,
+    user_name,
+    user_lastName,
+    user_email,
+    user_phone,
+    user_rol,
+    habilitado,
+    fecha_alta)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+);
 $stmt->bind_param(
     "sssssssis",
     $user_img,

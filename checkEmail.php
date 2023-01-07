@@ -33,11 +33,11 @@ $sql = "SELECT user_name, user_lastName, user_email FROM empresas_user where use
 $sql = sprintf($sql, $user_email); 
 
 try {
-    $newuser = Database::get_json_row($sql);
-    if ($newuser == null) {
+    $newUser = Database::get_json_row($sql);
+    if ($newUser == null) {
         echo json_encode($user);
     } else {
-        echo $newuser;
+        echo $newUser;
     }
 } catch (Exception $e) {
     echo $e->getMessage();

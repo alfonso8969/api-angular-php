@@ -12,8 +12,8 @@
  * @link     https://github.com/alfonso8969/api-angular-php.git
  */
 
-include_once "./classes/class.Database.php";
-include_once "./classes/utils.php";
+require_once "./classes/class.Database.php";
+require_once "./classes/utils.php";
 
 $data = json_decode(file_get_contents("php://input"));
 $sql = "";
@@ -27,16 +27,18 @@ if (!isset($data->user)) {
 }
 
 $user = $data->user;
+$user_passwordEncrypt = Utils::encrypt($user->user_password);
 
 $db = Database::getInstance();
 $user_email = $user->user_email;
 $sql = "SELECT user_password FROM empresas_user where user_email = '%s';";
-$sql = sprintf($sql, $user_email); 
+$sql = sprintf($sql, $user_email);
 $user_passwordDB = $db->get_value_query($sql, 'user_password');
 
+$user_passwordDecrypt = Utils::decrypt($user_passwordEncrypt);
+$user_passwordDBDecrypt = Utils::decrypt($user_passwordDB);
+$user_passwordComp = $user_passwordDecrypt == $user_passwordDBDecrypt;
 
-$user_password = $user->user_password;
-$user_passwordComp = Utils::uncrypt($user_password, $user_passwordDB);
 
 if ($user_passwordComp) {
     $sql = "SELECT id_user,
@@ -51,7 +53,7 @@ if ($user_passwordComp) {
     fecha_alta,
     fecha_baja
      FROM empresas_user where user_email = '%s' AND user_password = '%s';";
-    $sql = sprintf($sql, $user_email, $user_passwordDB); 
+    $sql = sprintf($sql, $user_email, $user_passwordDB);
     try {
         $newUser = Database::get_json_row($sql);
     } catch (Exception $e) {
@@ -67,5 +69,3 @@ if ($user_passwordComp) {
 } else {
     echo json_encode($user);
 }
-
-

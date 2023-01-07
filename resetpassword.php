@@ -29,7 +29,7 @@ if (!isset($data->user)) {
 $user = $data->user;
 $user_email = $user->user_email;
 $user_password = $user->user_password;
-$user_password = Utils::crypt($user_password);
+$user_password = Utils::encrypt($user_password);
 
 $sql = "UPDATE empresas_user SET user_password = ? WHERE user_email = ?";
 
