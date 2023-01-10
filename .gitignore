@@ -6,3 +6,16 @@ Thumbs.db
 **/secret/
 /classes/*.*
 /uploads/*.*
+
+# Visual Studio Code
+/.vscode/*.*
+.vscode/*.*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+.vscode/launch.json
+.vscode/settings.json
+*/class.Database.php
+classes/class.Database.php
