@@ -27,7 +27,7 @@ class Utils
         array_walk_recursive(
             $array, function (&$item, $key) {
                 if (!mb_detect_encoding($item, 'utf-8', true)) {
-                    $item = utf8_encode($item);
+                    $item = mb_convert_encoding($item, 'utf-8');
                 }
             }
         );
@@ -35,7 +35,7 @@ class Utils
         return $array;
     }
 
-    public static function getLastIdOfEmpDet() 
+    public static function getLastIdOfEmpDet()
     {
         $db = Database::getInstance();
         $sql = "SELECT (MAX(Empresa_det_id) + 1) As NEXT FROM empresas_principal";
@@ -43,7 +43,7 @@ class Utils
         return "$lastIdOfEmpDet";
     }
 
-    public static function getLastDistrict() 
+    public static function getLastDistrict()
     {
         $db = Database::getInstance();
         $sql = "SELECT  MAX(REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(distrito_name, ' ', 4), ' ', -1), ')', ''))  AS distrito_number FROM empresas_distritos where distrito_name <> 'sin datos';";
@@ -74,7 +74,7 @@ class Utils
      * Encrypt data
      *
      * Encrypt the data passed as parameter
-     * 
+     *
      * @param string $data Data to encrypt
      *
      * @return string  Data encrypted
@@ -91,14 +91,14 @@ class Utils
         $firstEncrypted = openssl_encrypt($data, $method, $firstkey, OPENSSL_RAW_DATA, $iv);
         $secondEncrypted = hash_hmac('sha3-512', $firstEncrypted, $secondkey, true);
                     
-        return base64_encode($iv . $secondEncrypted . $firstEncrypted);    
+        return base64_encode($iv . $secondEncrypted . $firstEncrypted);
     }
 
     /**
      * Decrypt data
      *
      * Decrypt the data passed as parameter
-     * 
+     *
      * @param string $input Data to decrypt
      *
      * @return string  Data decrypted

@@ -6,6 +6,7 @@ Thumbs.db
 **/secret/
 /classes/*.*
 /uploads/*.*
+/attachment/*.*
 
 # Visual Studio Code
 /.vscode/*.*
